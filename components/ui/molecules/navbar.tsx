@@ -22,6 +22,9 @@ export default function Navbar() {
         <li style={liStyle}>
           <Link href="/preferences">Favoris</Link>
         </li>
+        <li style={liStyle}>
+          <Link href="/register">Se connecter</Link>
+        </li>
       </ul>
     </nav>
   );

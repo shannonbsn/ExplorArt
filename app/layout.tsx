@@ -1,4 +1,4 @@
-import Navbar from "./components/navbar";
+import Navbar from "@/components/ui/molecules/navbar";
 import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
