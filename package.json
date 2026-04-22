@@ -6,7 +6,9 @@
     "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.5.0",
@@ -31,6 +33,7 @@
     "@types/node": "^20.19.37",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^15.14.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "prisma": "^7.5.0",
