@@ -4,12 +4,12 @@ describe("Home Page", () => {
   });
 
   it("should display the home page", () => {
-    cy.contains("h1", "Welcome to Explor'Art");
+    cy.contains("h1", "Création du projet ExplorArt");
   });
 
   it("should navigate to the musees page", () => {
     cy.visit("/");
-    cy.get("a").contains("/musees").click();
+    cy.get("a[href='/musees']").click();
     cy.url().should("include", "/musees");
   });
 });
