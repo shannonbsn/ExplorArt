@@ -1,26 +1,28 @@
-const CACHE_NAME = "my-pwa-cache-v1";
-const OFFLINE_URL = "./offline.html";
+const CACHE_NAME = "my-pwa-cache-v1.2";
+const OFFLINE_URL = "/offline";
 const APP_SHELL = [
-  "./",
-  "/layout.html",
-  "./globals.css",
-  "/favicon.ico",
-  OFFLINE_URL,
+  "/",
+  "/icons/LOGO.png",
+  OFFLINE_URL
 ];
 
 self.addEventListener("install", (event) => {
+    try {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => 
-            cache.addAll(ASSET_TO_CACHE)
+            Array.from(APP_SHELL).map((url) => cache.add(url))
         ),
     );
+    } catch (error) {
+        console.error("Failed to cache app shell:", error);
+    }
 });
 
 self.addEventListener("activate", (event) => {
     event.waitUntil(
         caches
             .keys()
-            .then((keys) => 
+            .then((key) => 
                 Promise.all(
                     key
                         .filter((key) => key !== CACHE_NAME)
@@ -31,25 +33,16 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-    event.respondWith(
-        caches.match(event.request).then((cacheResponse) => {
-            return cacheResponse || fetch(event.request);
-        }),
-    );
-});
+  const { request } = event;
 
-self.addEventListener("fetch", (event) => {
-    const { request } = event;
-
-    if (request.mode === "navigate") {
-        event.respondWith(
-            fetch(request).catch(() => caches.match("/offline.html")),
-        );
-        return;
-    }
+  if (request.mode === "navigate") {
     event.respondWith(
-        caches
-        .match(request)
-        .then((cacheResponse) => cacheResponse || fetch(request)),
+      fetch(request).catch(() => caches.match(OFFLINE_URL))
     );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(request).then((cached) => cached || fetch(request))
+  );
 });
